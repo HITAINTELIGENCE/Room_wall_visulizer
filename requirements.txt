@@ -1,0 +1,14 @@
+click
+cycler
+decorator
+imageio
+kornia
+opencv-contrib-python
+pillow
+pytorch-lightning
+scikit-image
+scipy
+tensorboardx
+torch
+tqdm
+torchvision
