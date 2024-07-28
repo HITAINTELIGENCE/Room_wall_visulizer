@@ -17,7 +17,7 @@ import torch
 import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 
-from models.models import SegmentationModule, build_encoder, build_decoder
+from models.pspnet import PSPNet, build_encoder, build_decoder
 from models.dataset import TrainDataset, ValDataset
 from utils.constants import NUM_EPOCHS, OPTIMIZER_PARAMETERS, DEVICE, NUM_WORKERS, ODGT_TRAINING, BATCH_PER_GPU, ODGT_EVALUTATION
 from src.train import create_optimizers, train_one_epoch, checkpoint
