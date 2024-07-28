@@ -6,7 +6,7 @@ from utils.constants import DEVICE, FC_DIM, NUM_CLASSES
 
 class PSPNet(nn.Module):
     """
-        Segmentation Module class
+        PSPNet Module class
     """
     def __init__(self, net_encoder, net_decoder):
         super(PSPNet, self).__init__()
@@ -15,7 +15,7 @@ class PSPNet(nn.Module):
         
     def forward(self, input_dict, seg_size=None):
         """
-        Forward pass of Segmentation Module
+        Forward pass of PSPNet Module
         """
 
         return self.decoder(self.encoder(input_dict['img_data'].to(DEVICE)), seg_size=seg_size)
@@ -23,7 +23,13 @@ class PSPNet(nn.Module):
 
 def build_encoder(path_encoder_weights="", encoder_model="resnet50-dilated"):
     """
-        Function for building the encoder part of the Segmentation Module
+        Xây dựng encoder cho PSPNet Module  
+        Thu được bản đồ đặc trưng của hình ảnh đầu vào có chiều cao và chiều rộng nhỏ hơn nhưng với số kênh đặc trưng tăng lên 
+        Kiến trúc của encoder này được sử dụn glà ResnetDilated, được tạo ra bằng cách mở rộng kiến trúc ResNet ban đầu
+        Cấu trúc ResnetDilated: sử dụng hai khối cuối cùng của Resnet50 sử dụng tích chập giãn và bước nhảy stride nhỏ hơn. 
+        Việc sử dụng ResnetDilated giúp tăng cường khả năng nhận diện đặc trưng của mô hình, encoder sẽ trích xuất được nhiều thông tin hơn từ hình ảnh đầu vào. 
+        https://towardsdatascience.com/review-drn-dilated-residual-networks-image-classification-semantic-segmentation-d527e1a8fb5
+        
     """
     print(f'Building encoder: {encoder_model}')
     pretrained = path_encoder_weights != ""
@@ -109,7 +115,7 @@ class ResnetDilated(nn.Module):
 
 def build_decoder(path_decoder_weights=""):
     """
-        Function for building the decoder part of the Segmentation Module
+        Xây dựng decoder cho PSPNet Module  
     """
     net_decoder = PPM(num_class=NUM_CLASSES, fc_dim=FC_DIM)
     
