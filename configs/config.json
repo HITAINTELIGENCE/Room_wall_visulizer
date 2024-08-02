@@ -1,0 +1,11 @@
+{
+    "ROOT_DATASET": "data",
+
+    "MODEL_ENCODER_WEIGHTS_PATH": "weights/wall_decoder_epoch_20.pth",
+    "MODEL_DECODER_WEIGHTS_PATH": "weights/wall_decoder_epoch_20.pth",
+
+    "CONTINUE_TRAINING": false,
+    "CHECKPOINT_DIR_PATH": "TRAINING_NAME",
+
+    "ENCODER_MODEL": "resnet101-dilated"
+}

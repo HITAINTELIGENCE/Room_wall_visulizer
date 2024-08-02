@@ -1,0 +1,13 @@
+.idea
+Proba*
+*.pth
+!weights/wall_encoder_epoch_20.pth
+!weights/wall_decoder_epoch_20.pth
+__pycache__
+configs/*
+!configs/config.json
+.ipynb_checkpoints
+ckpt/*
+README.md
+!ckpt/README.md
+data
