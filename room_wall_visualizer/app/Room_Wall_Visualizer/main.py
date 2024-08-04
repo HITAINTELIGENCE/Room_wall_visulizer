@@ -5,6 +5,7 @@ from fastapi import FastAPI, File, Form, UploadFile, Request
 from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+import socket
 import os
 from PIL import Image
 import numpy as np 
@@ -72,3 +73,6 @@ async def textured_room(request: Request):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=9090)
+# @app.get("/")   
+# def read_root():
+#     return {"id": socket.gethostname()}

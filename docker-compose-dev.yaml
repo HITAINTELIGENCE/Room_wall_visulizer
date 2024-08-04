@@ -1,0 +1,44 @@
+version: '3.8' 
+# docker compose logs -f: to see the logs file 
+
+services:
+  app:
+    build: room_wall_visualizer 
+    container_name: room_wall_app
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+    volumes:
+      - ./room_wall_visualizer/app/Room_Wall_Visualizer:/app  
+    ports:
+      - "8001:8000" 
+  
+  app1:
+    image: room-visualizer-app:latest
+    # build: room_wall_visualizer
+    container_name: room_wall_app1
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+    volumes:
+      - ./room_wall_visualizer/app/Room_Wall_Visualizer:/app  
+    ports:
+      - "8003:8000" 
+    depends_on:
+      - app
+  
+  app2:
+    image: room-visualizer-app:latest
+    # build: room_wall_visualizer
+    container_name: room_wall_app2
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+    volumes:
+      - ./room_wall_visualizer/app/Room_Wall_Visualizer:/app  
+    ports:
+      - "8002:8000" 
+    depends_on:
+      - app
+  
+  nginx:
+    build: nginx  
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"   
+      # - "443:443"  

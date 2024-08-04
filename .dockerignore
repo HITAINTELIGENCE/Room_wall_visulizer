@@ -18,3 +18,5 @@ coverage.xml
 .mypy_cache
 .pytest_cache
 .hypothesis
+room_wall_visualizer/venv
+venv/
