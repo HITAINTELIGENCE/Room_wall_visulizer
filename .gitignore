@@ -155,7 +155,7 @@ dmypy.json
 cython_debug/
 
 # estimate model pretrained
-room_wall_visualizer/appRoom_Wall_Visualizer/wall_estimation/weight//model_retrained.ckpt
+room_wall_visualizer/appRoom_Wall_Visualizer/wall_estimation/weight/model_retrained.ckpt
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
