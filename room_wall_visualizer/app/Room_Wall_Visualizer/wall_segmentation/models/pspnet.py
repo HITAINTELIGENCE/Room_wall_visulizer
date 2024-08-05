@@ -32,13 +32,13 @@ def build_encoder(path_encoder_weights="", encoder_model="resnet50-dilated"):
         
     """
     print(f'Building encoder: {encoder_model}')
-    weights = path_encoder_weights != ""
+    pretrained = path_encoder_weights != ""
     if encoder_model.startswith("resnet18"):
-        orig_resnet = resnet18(weights=not weights)
+        orig_resnet = resnet18(pretrained=not pretrained)
     elif encoder_model.startswith("resnet50"):
-        orig_resnet = resnet50(weights=not weights)
+        orig_resnet = resnet50(pretrained=not pretrained)
     elif encoder_model.startswith("resnet101"):
-        orig_resnet = resnet101(weights=not weights)
+        orig_resnet = resnet101(pretrained=not pretrained)
     else:
         assert(f"Encoder model {encoder_model} is not implemented!")
 
@@ -47,7 +47,7 @@ def build_encoder(path_encoder_weights="", encoder_model="resnet50-dilated"):
     else:
         net_encoder = ResnetDilated(orig_resnet, dilate_scale=1)
 
-    if weights:
+    if pretrained:
         print('Loading weights for net_encoder')
         net_encoder.load_state_dict(
             torch.load(path_encoder_weights, map_location=lambda storage, loc: storage), strict=False)

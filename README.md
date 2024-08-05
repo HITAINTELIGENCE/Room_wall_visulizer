@@ -10,7 +10,7 @@
 
 Backend của hệ thống được thiết kế với các công nghệ sử dụng như sau:
 
--   [FastAPI](https://fastapi.tiangolo.com/): Dựng API cho PSPNet Service.
+-   [FastAPI](https://fastapi.tiangolo.com/): Dựng API cho backend Service.
 -   [Nginx](https://nginx.org/en/): Web server cho Nginx.
 -   [Docker](https://www.docker.com/): Containerize các service.
 -   [Docker Compose](https://docs.docker.com/compose/): Quản lý các container.

@@ -3,9 +3,9 @@ import torchvision.transforms
 from PIL import Image
 import numpy as np
 
-from utils.constants import IMAGENET_MEAN, IMAGENET_STD
-from utils.utils import IOU, visualize_wall, accuracy
-from utils.constants import DEVICE
+from wall_segmentation.utils.constants import IMAGENET_MEAN, IMAGENET_STD
+from wall_segmentation.utils.utils import IOU, visualize_wall, accuracy
+from wall_segmentation.utils.constants import DEVICE
 from tqdm import tqdm
 
 
