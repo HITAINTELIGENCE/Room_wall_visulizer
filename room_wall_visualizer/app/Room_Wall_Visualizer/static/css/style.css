@@ -564,7 +564,7 @@
 /*** FAQs Start ***/
 .faq-section .accordion .accordion-item .accordion-header .accordion-button {
     color: var(--bs-white);
-    background: rgba(1, 95, 201, .8);
+    background: var(--bs-primary);
     font-size: 18px;
 }
 

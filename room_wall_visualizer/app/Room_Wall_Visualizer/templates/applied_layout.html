@@ -33,31 +33,36 @@
                 <img src="static\IMG\loading.gif" alt="Loading" style="width: 25px; height: 25spx;">
               </div>
               <div class="text-white text-center">
-                <p class="lead mb-5 white">Please wait while the image is being processed...</p>
+                <p class="lead mb-5 white">
+                  Please wait while the image is being processed...
+                </p>
               </div>
             </div>
           </div>
   
           <!-- Uploaded image area-->
-          <p class="font-italic text-white text-center">The image uploaded will be rendered inside the box below.</p>
-          <div class="image-area mt-4"><img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="imageResult"
-              name="change" src="{{ room }}"></div>
+          <p class="font-italic text-white text-center">
+            The image uploaded will be rendered inside the box below.
+          </p>
+          <div class="image-area mt-4">
+            <img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="imageResult"  name="change" src="{{ room }}">
+          </div>
   
           <!-- Submit button-->
           <div class="container">
             <div class="row">
               <div class="col text-center">
-                <button class="btn btn-primary my-3" type="submit" name="button" value="color">Change
-                  color</button>
-  
+                <button class="btn btn-primary my-3" type="submit" name="button" value="color">
+                  Change color
+                </button>
               </div>
               <div class="col text-center">
-                <button class="btn btn-primary my-3" type="submit" name="button" value="texture">Change
-                  texture</button>
+                <button class="btn btn-primary my-3" type="submit" name="button" value="texture">
+                  Change texture
+                </button>
               </div>
             </div>
           </div>
-  
         </form>
       </div>
     </div>
