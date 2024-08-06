@@ -39,24 +39,25 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 # Mount static files 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 # Load pretrained wall segmentation model
 model = build_model()
 # ----------------------------------------------------------------------
 
-
+# --------------------------START HTML PAGES----------------------------
 @app.get("/", response_class=HTMLResponse)
 async def main(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "room": ROOM_IMAGE})
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/redirect-to-texture")
-async def redirect_to_texture(request: Request):
-    return templates.TemplateResponse("applied_layout.html", {"request": request, "room": ROOM_IMAGE})
+@app.get("/room_visualization_index")
+async def room_visualization_index(request: Request):
+    texture_images = [f for f in os.listdir('static/test_images/textures') if f.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+    return templates.TemplateResponse("room_visualization_index.html", {"request": request, "room": ROOM_IMAGE, "images": texture_images})
 
 
-@app.post("/prediction")
+@app.post("/room_visualization_prediction")
 async def predict_image_room(request: Request, file: UploadFile = File(...), button: str = Form(...)):
     try:
         contents = await file.read()
@@ -107,6 +108,7 @@ async def predict_image_room(request: Request, file: UploadFile = File(...), but
 
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))
+# --------------------------END HTML PAGES----------------------------
 
 
 @app.get("/textured_room")
@@ -138,15 +140,45 @@ async def result_textured(file: UploadFile = File(None)):
     return JSONResponse(content={"state": "success", "room_path": TEXTURED_ROOM_PATH})
 
 
+@app.post("/apply_texture/{image}")
+async def apply_texture(image: str, request: Request):
+    try:
+        img = load_img(ROOM_IMAGE)
+
+        # Load computed vertices of a wall
+        with open(CORNERS_PATH, "rb") as f:
+            corners = np.load(f)
+
+        # Load segmentation mask of room walls
+        with open(MASK_PATH, "rb") as f:
+            mask = np.load(f)
+
+        # Save uploaded texture
+        texture_path = os.path.join("static", "test_images", "textures", image)
+        texture = load_texture(texture_path, 6, 6)
+
+        # Perspective projection texture on walls
+        img_textured = map_texture(texture, img, corners, mask)
+
+        # Transfer shadows and shine from original image
+        out = brightness_transfer(img, img_textured, mask)
+
+        # Save processed image
+        save_image(out, TEXTURED_ROOM_PATH)
+
+        return JSONResponse(content={"state": "success", "room_path": TEXTURED_ROOM_PATH})
+
+    except Exception as e:
+        return JSONResponse(content={"state": "error", "message": str(e)})
+
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
     rgb_tuple = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     return rgb_tuple
 
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=9090)
 # @app.get("/")   
 # def read_root():
 #     return {"id": socket.gethostname()}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=9090)
