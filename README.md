@@ -40,6 +40,10 @@ cd vào thư mục Room_wall_visulizer:
 ```bash
 cd Room_wall_visulizer
 ```
+### Chuẩn bị các file weight cho các model đã được huấn luyện
+-  Tải các file weight cho các model đã được huấn luyện tại [đây](https://drive.google.com/drive/folders/1TllWYrTGa8rxpj1tAT0oUnykuJSXNr63?usp=drive_link) 
+- Giải nén các file weight và đặt vào thư mục `room_wall_visualizer/app/Room_Wall_Visualizer/wall_segmentation/weights/` và `room_wall_visualizer/app/Room_Wall_Visualizer/wall_estimation/weight/`    
+
 
 ### Chạy hệ thống
 -   Start các services với 1 lệnh docker-compose:
