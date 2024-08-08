@@ -30,11 +30,22 @@ TEXTURE_PATH = os.path.join(IMG_FOLDER, "texture.jpg")
 MASK_PATH = os.path.join(DATA_FOLDER, "image_mask.npy")
 CORNERS_PATH = os.path.join(DATA_FOLDER, "corners_estimation.npy")
 # ----------------------------------------------------------------------
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class ForwardedProtoMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        if request.headers.get("x-forwarded-proto") == "https":
+            request.scope["scheme"] = "https"
+        response = await call_next(request)
+        return response
+
+app = FastAPI()
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+app.add_middleware(ForwardedProtoMiddleware)
 
 
 # ----------------------------------------------------------------------
-app = FastAPI()
-
 # Setup Jinja2 templates
 templates = Jinja2Templates(directory="templates")
 

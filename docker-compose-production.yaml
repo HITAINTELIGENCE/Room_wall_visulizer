@@ -18,15 +18,5 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./nginx/ssl:/etc/nginx/ssl
     restart: always
-
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: certbot
-  #   volumes:
-  #     - ./certbot/conf:/etc/letsencrypt
-  #     - ./certbot/www:/var/www/certbot
-  #   command: sh -c "certonly --webroot -w=/var/www/certbot --email hmh290204@gmail.com -d room.dhcn.vn --agree-tos" 
-  #   restart: always
