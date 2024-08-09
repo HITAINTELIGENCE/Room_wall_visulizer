@@ -21,7 +21,20 @@ filterwarnings("ignore")
 IMG_FOLDER = 'static/IMG/'
 DATA_FOLDER = 'static/data/'
 
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+
+
+class ForwardedProtoMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        if request.headers.get("x-forwarded-proto") == "https":
+            request.scope["scheme"] = "https"
+        response = await call_next(request)
+        return response
+
 app = FastAPI()
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+app.add_middleware(ForwardedProtoMiddleware)
 
 # Setup Jinja2 templates
 templates = Jinja2Templates(directory="templates")
