@@ -46,3 +46,35 @@ $(function () {
         $('#loadingMessage').show();
     });
 });
+
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      // Preview the image
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('imageResult').src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+  
+      // Send the image to the server for processing
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('button', 'texture'); // or 'color', depending on what you want to do by default
+  
+      fetch("/room_visualization_prediction", {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server
+        console.log(data);
+        // You might want to update the UI here based on the response
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  }

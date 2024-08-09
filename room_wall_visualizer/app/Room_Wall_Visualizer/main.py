@@ -24,7 +24,6 @@ IMG_FOLDER = os.path.join("static", "IMG")
 DATA_FOLDER = os.path.join("static", "data")
 
 ROOM_IMAGE = os.path.join(IMG_FOLDER, "room.jpg")
-COLORED_ROOM_PATH = os.path.join(IMG_FOLDER, "colored_room.jpg")
 TEXTURED_ROOM_PATH = os.path.join(IMG_FOLDER, "textured_room.jpg")
 TEXTURE_PATH = os.path.join(IMG_FOLDER, "texture.jpg")
 MASK_PATH = os.path.join(DATA_FOLDER, "image_mask.npy")
@@ -43,7 +42,6 @@ class ForwardedProtoMiddleware(BaseHTTPMiddleware):
 app = FastAPI()
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 app.add_middleware(ForwardedProtoMiddleware)
-
 
 # ----------------------------------------------------------------------
 # Setup Jinja2 templates
@@ -69,7 +67,7 @@ async def room_visualization_index(request: Request):
 
 
 @app.post("/room_visualization_prediction")
-async def predict_image_room(request: Request, file: UploadFile = File(...), button: str = Form(...)):
+async def predict_image_room(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         op_img = Image.open(io.BytesIO(contents))
@@ -81,7 +79,6 @@ async def predict_image_room(request: Request, file: UploadFile = File(...), but
         op_img = Image.fromarray(op_img)
 
         op_img.save(ROOM_IMAGE)
-        op_img.save(COLORED_ROOM_PATH)
         op_img.save(TEXTURED_ROOM_PATH)
 
         path_image = os.path.abspath(ROOM_IMAGE)
@@ -92,6 +89,7 @@ async def predict_image_room(request: Request, file: UploadFile = File(...), but
         # start wall estimation
         estimation_map = wall_estimation(path_image)
         
+# --------------------------END HTML PAGES----------------------------
         # get coordinates of walls
         corners = get_wall_corners(estimation_map)
 
@@ -112,47 +110,13 @@ async def predict_image_room(request: Request, file: UploadFile = File(...), but
         with open(CORNERS_PATH, "wb") as f:
             np.save(f, np.array(corners))
         
-        if button == "texture":
-            return RedirectResponse(url="/textured_room")
-
-        return templates.TemplateResponse("result.html", {"request": request})
+        return {"state": "success"}
 
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))
-# --------------------------END HTML PAGES----------------------------
-
-
-@app.get("/textured_room")
-async def textured_room(request: Request):
-    return templates.TemplateResponse("applied_texture.html", {"request": request, "new_room": TEXTURED_ROOM_PATH})
-
-
-@app.post("/result_textured")
-async def result_textured(file: UploadFile = File(None)):
-    if file:
-        contents = await file.read()
-        op_img = Image.open(io.BytesIO(contents))
-        op_img.save(TEXTURE_PATH)
-
-    img = load_img(ROOM_IMAGE)
-
-    with open(CORNERS_PATH, "rb") as f:
-        corners = np.load(f)
-
-    with open(MASK_PATH, "rb") as f:
-        mask = np.load(f)
-
-    texture = load_texture(TEXTURE_PATH, 6, 6)
-    img_textured = map_texture(texture, img, corners, mask)
-    out = brightness_transfer(img, img_textured, mask)
-
-    save_image(out, TEXTURED_ROOM_PATH)
-
-    return JSONResponse(content={"state": "success", "room_path": TEXTURED_ROOM_PATH})
-
 
 @app.post("/apply_texture/{image}")
-async def apply_texture(image: str, request: Request):
+async def apply_texture(image: str):
     try:
         img = load_img(ROOM_IMAGE)
 
@@ -182,10 +146,6 @@ async def apply_texture(image: str, request: Request):
     except Exception as e:
         return JSONResponse(content={"state": "error", "message": str(e)})
 
-def hex_to_rgb(hex_color):
-    hex_color = hex_color.lstrip("#")
-    rgb_tuple = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-    return rgb_tuple
 
 # @app.get("/")   
 # def read_root():
