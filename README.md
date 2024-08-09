@@ -1,12 +1,31 @@
-# HIT ROOM 
+# HIT ROOM [![Demo](https://img.shields.io/badge/Demo-2ea44f?style=for-the-badge)](https://room.dhcn.vn/)
+
+![](room_wall_visualizer/app/Room_Wall_Visualizer/static/img/demo.png)
+
+![](room_wall_visualizer/app/Room_Wall_Visualizer/static/img/demo1.png)
+
+<p align="">
+  <img src="room_wall_visualizer/app/Room_Wall_Visualizer/static/img/demo3.png" alt="Demo Image 1" width="49.5%">
+  <img src="room_wall_visualizer/app/Room_Wall_Visualizer/static/img/demo2.png" alt="Demo Image 2" width="49.5%">
+</p>
+
+## 🔎 Danh Mục
+
+1. [Giới thiệu](#Giới-thiệu)
+2. [Chức năng](#Chức-năng-chính)
+3. [Tổng quan hệ thống](#👩‍💻-Tổng-quan-hệ-thống)
+4. [Hướng dẫn cài đặt](#Hướng-dẫn-cài-đặt)
 
 ## Giới thiệu
-
-
+- Room wall visualizer: Là một công cụ trực tuyến giúp người dùng dễ dàng tùy chỉnh và trực quan hóa giao diện của các bức tường trong một căn phòng.
 ## Chức năng chính
+Project tập trung vào các chức năng chính như sau:
 
+- ⬆️ Tải lên hình ảnh căn phòng.
 
-## 👩‍💻 Tổng Quan Hệ Thống
+- 🟫 Tùy chỉnh giao diện của tường: Room Wall Visualizer cho phép người dùng thay đổi diện mạo của các bức tường trong căn phòng.
+
+## 👩‍💻 Tổng quan hệ thống
 
 Backend của hệ thống được thiết kế với các công nghệ sử dụng như sau:
 
@@ -15,7 +34,7 @@ Backend của hệ thống được thiết kế với các công nghệ sử d�
 -   [Docker](https://www.docker.com/): Containerize các service.
 -   [Docker Compose](https://docs.docker.com/compose/): Quản lý các container.
 
-## Hướng Dẫn Cài Đặt
+## Hướng dẫn cài đặt
 
 Tất cả các images build từ services backend bạn có thể tìm thấy tại [Docker Hub](https://hub.docker.com/repository/docker/hungmanhhoang/room-visualizer-app/general).
 
