@@ -42,7 +42,8 @@ cd Room_wall_visulizer
 ```
 ### Chuẩn bị các file weight cho các model đã được huấn luyện
 -  Tải các file weight cho các model đã được huấn luyện tại [đây](https://drive.google.com/drive/folders/1TllWYrTGa8rxpj1tAT0oUnykuJSXNr63?usp=drive_link) 
-- Giải nén các file weight và đặt vào thư mục `room_wall_visualizer/app/Room_Wall_Visualizer/wall_segmentation/weights/` và `room_wall_visualizer/app/Room_Wall_Visualizer/wall_estimation/weight/`    
+- Giải nén các file weight và đặt vào thư mục `room_wall_visualizer/app/Room_Wall_Visualizer/wall_segmentation/weights/` và `room_wall_visualizer/app/Room_Wall_Visualizer/wall_estimation/weight/`
+- Để hiểu rõ hơn về cách các mô hình này được huấn luyện và cấu trúc của chúng, bạn có thể tham khảo mã nguồn và  notebook đã được train trên Kaggle. [link](https://www.kaggle.com/code/chiendao123/training-wall-segment)
 
 
 ### Chạy hệ thống
